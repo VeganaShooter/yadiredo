@@ -21,11 +21,13 @@ def md5sum(filename):
 
 
 def check_and_download_file(url, path, size, checksum, dry):
-    if os.path.isfile(path):
-        if size == os.path.getsize(path):
-            if checksum == md5sum(path):
-                print('skipping correctly downloaded file {}'.format(path))
-                return
+    if (
+        os.path.isfile(path)
+        and size == os.path.getsize(path)
+        and checksum == md5sum(path)
+    ):
+        print('skipping correctly downloaded file {}'.format(path))
+        return
     if not dry:
         print('downloading {}'.format(path))
         r = requests.get(url, stream=True)
